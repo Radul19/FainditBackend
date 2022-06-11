@@ -1,0 +1,14 @@
+
+@api = http://localhost:3000/register
+
+####
+POST {{api}}
+Content-type: application/json
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+####
+
+GET {{api}}
