@@ -8,7 +8,7 @@ const { v4 } = require('uuid');
 
 const c_e_m = {
     ok: false,
-    msg: "No se ha podido realizar la operacion"
+    msg: "No se ha podido realizar la operación"
 }
 
 
@@ -29,14 +29,6 @@ ctrl.register = async (req, res) => {
         const searchUsername = await User.findOne({ name })
         const searchEmail = await User.findOne({ email })
 
-
-        if (searchUsername) {
-            return res.status(406).json({
-                ok: false,
-                msg: "El nombre de usuario ya estan en uso"
-            })
-        }
-
         if (searchEmail) {
 
             return res.status(406).json({
@@ -52,22 +44,58 @@ ctrl.register = async (req, res) => {
 
         const id = v4()
 
-        const newUser = { name, email, password: cryptPass, age, country, id, place, adress, phone, interest };
-        // const newUser = new User({ username, email, password: cryptPass, country, id, place, adress, phone, interest });
-        // await newUser.save()
+        // const newUser = { name, email, password: cryptPass, age, country, id, place, adress, phone, interest };
+        const newUser = new User({ name, email, password: cryptPass, age, country, id, place, adress, phone, interest });
+        await newUser.save()
 
-        res.send(newUser)
+        res.json({
+            ok: true,
+            msg: "Cuenta creada con exito"
+        })
 
+
+    } catch (error) {
+
+        return res.status(404).json(c_e_m)
+    }
+
+}
+
+ctrl.login = async (req, res) => {
+
+    try {
+        const { email, password } = req.body
+        const searchEmail = await User.findOne({ email })
+
+        if (searchEmail) {
+            const passwordValidator = bcrypt.compareSync(password, searchEmail.password)
+
+            if (passwordValidator) {
+                return res.send(searchEmail)
+            } else {
+                return res.status(404).json({
+                    ok: false,
+                    msg: "Contraseña incorrecta"
+                })
+            }
+
+        } else {
+            return res.status(404).json({
+                ok: false,
+                msg: "No hay usuario registrado con ese nombre"
+            })
+        }
 
     } catch (error) {
         console.log(error)
         return res.status(404).json(c_e_m)
     }
 
+
 }
 
 
-const userData = {
+const abcde = {
     "name": "Jhon Deep",
     "email": "aver@gmail.com",
     "password": "123123",

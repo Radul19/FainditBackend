@@ -1,5 +1,5 @@
 const { Router } = require("express")
-const { home, register } = require('./controller')
+const { home, register, login } = require('./controller')
 
 
 // const multer = require("multer")
@@ -23,5 +23,7 @@ const router = Router()
 router.get('/', home)
 
 router.post('/register', register)
+
+router.post('/login', login)
 
 module.exports = router
