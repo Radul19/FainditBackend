@@ -235,14 +235,14 @@ ctrl.search = async (req, res) => {
 
         if (producto) {
             result = await db.query(`
-            SELECT * FROM items WHERE (description LIKE '${text}%' OR title LIKE '${text}%') AND (place = $1) AND tags = $2 AND price ${p_o} $3 AND rate >= $4`, [place, tags, price, rate])
+            SELECT * FROM items WHERE (description LIKE '${text}%' OR title LIKE '${text}%') AND (place = $1) AND tags = $2 AND price ${p_o} $3 `, [place, tags, price])
         } else {
             if (tags.lenght > 0) {
                 result = await db.query(`
-                SELECT * FROM markets WHERE (description LIKE '${text}%' OR name LIKE '${text}%') AND (place = $1) AND categories = $2 AND verified = $3 rate >= $4 `, [place, tags, verified, rate])
+                SELECT * FROM markets WHERE (description LIKE '${text}%' OR name LIKE '${text}%') AND (place = $1) AND categories = $2 AND verified = $3 `, [place, tags, verified])
             } else {
                 result = await db.query(`
-                SELECT * FROM markets WHERE (description LIKE '${text}%' OR name LIKE '${text}%') AND (place = $1) AND verified = $2 AND rate >= $3 `, [place, verified, rate])
+                SELECT * FROM markets WHERE (description LIKE '${text}%' OR name LIKE '${text}%') AND (place = $1) AND verified = $2  `, [place, verified])
             }
         }
 
